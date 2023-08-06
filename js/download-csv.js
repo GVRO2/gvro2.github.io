@@ -1,22 +1,13 @@
-var resultTest;
+var timeFinishedProcess;
 
 function downloadCsv() {
     const hoje = new Date();
     var timestamp = hoje.getTime();
     var content = buildCsvReturn();
-    // Crie um novo objeto blob
     const blob = new Blob([content], { type: 'text/csv' });
-
-    // Crie um novo link
     const link = document.createElement('a');
-
-    // Defina o href do link para o blob
     link.href = window.URL.createObjectURL(blob);
-
-    // Defina o download do link para 'file.csv'
     link.download = `endereco-completo-${timestamp}.csv`;
-
-    // Mostre o link
     link.click();
 
 }
@@ -24,63 +15,105 @@ function downloadCsv() {
 function buildCsvReturn() {
     var text = "latitude;longetude;formattedAddress;cep;streetName;streetNumber;city;state;country\n"
     resultsRequestAdress.forEach(result => {
-        var latitude = getLatitude(result);
-        var longetude = getLongetude(result);
-        var formattedAddress = getFormattedAddress(result);
-        var cep = getCEP(result);
-        var streetName = getStreetName(result);
-        var streetNumber = getStreetNumber(result);
-        var city = getCity(result);
-        var state = getState(result);
-        var country = getCountry(result);
-        console.log("streetNumber:" + streetNumber)
-        console.log("formattedAddress: " + formattedAddress)
-        console.log("latitude: " + latitude)
-        console.log("longetude: " + longetude)
-        console.log("streetName: " + streetName)
-        console.log("city: " + city)
-        console.log("state: " + state)
-        console.log("country: " + country)
-        console.log("cep: " + cep)
-        console.log(result)
-        resultTest = result
-        text += `${latitude};${longetude};${formattedAddress};${cep};${streetName};${streetNumber};${city};${state};${country}\n`
+        try {
+            var latitude = getLatitude(result);
+            var longetude = getLongetude(result);
+            var formattedAddress = getFormattedAddress(result);
+            var cep = getCEP(result);
+            var streetName = getStreetName(result);
+            var streetNumber = getStreetNumber(result);
+            var city = getCity(result);
+            var state = getState(result);
+            var country = getCountry(result);
+            text += `${latitude};${longetude};${formattedAddress};${cep};${streetName};${streetNumber};${city};${state};${country}\n`
+        } catch {
+            console.log("erro ao salvar escrever resultado: " + JSON.stringify(result))
+        }
     });
-    return text
+    timeFinishedProcess = new Date();
+
+    return addMetrics(text)
+}
+
+function addMetrics(text) {
+    const difference = timeFinishedProcess.getTime() - timeInitProcess.getTime();
+    const hour = difference / 3600000;
+    const minutes = (difference % 3600000) / 60000;
+    const seconds = (difference % 60000) / 1000;
+
+    text += `;;;processDuration=${hour} hour, ${minutes} minutes,${seconds} seconds`
+    return text;
 }
 
 function getStreetNumber(result) {
-    return result.address_components.filter((component) => component.types[0] === "street_number")[0].long_name;
+    try {
+        return result.address_components.filter((component) => component.types[0] === "street_number")[0].long_name;
+    } catch {
+        return "not returned by google maps"
+    }
+
 }
 
 function getStreetName(result) {
-    return result.address_components.filter((component) => component.types[0] === "route")[0].long_name;
+    try {
+        return result.address_components.filter((component) => component.types[0] === "route")[0].long_name;
+    } catch {
+        return "not returned by google maps"
+    }
 }
 
 function getCity(result) {
-    return result.address_components.filter((component) => component.types[0] === "administrative_area_level_2")[0].long_name;
+    try {
+        return result.address_components.filter((component) => component.types[0] === "administrative_area_level_2")[0].long_name;
+    } catch {
+        return "not returned by google maps"
+    }
 }
 
 function getState(result) {
-    return result.address_components.filter((component) => component.types[0] === "administrative_area_level_1")[0].long_name;
+    try {
+        return result.address_components.filter((component) => component.types[0] === "administrative_area_level_1")[0].long_name;
+    } catch {
+        return "not returned by google maps"
+    }
 }
 
 function getFormattedAddress(result) {
-    return result.formatted_address;
+    try {
+        return result.formatted_address;
+    } catch {
+        return "not returned by google maps"
+    }
 }
 
 function getLatitude(result) {
-    return result.geometry.location.lat();
+    try {
+        return result.geometry.location.lat();
+    } catch {
+        return "not returned by google maps"
+    }
 }
 
 function getLongetude(result) {
-    return result.geometry.location.lng();
+    try {
+        return result.geometry.location.lng();
+    } catch {
+        return "not returned by google maps"
+    }
 }
 
 function getCEP(result) {
-    return result.address_components.filter((component) => component.types[0] === "postal_code")[0].long_name;
+    try {
+        return result.address_components.filter((component) => component.types[0] === "postal_code")[0].long_name;
+    } catch {
+        return "not returned by google maps"
+    }
 }
 
 function getCountry(result) {
-    return result.address_components.filter((component) => component.types[0] === "country")[0].long_name;
+    try {
+        return result.address_components.filter((component) => component.types[0] === "country")[0].long_name;
+    } catch {
+        return "not returned by google maps"
+    }
 }

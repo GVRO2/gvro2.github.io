@@ -18,7 +18,7 @@
         <button id="change-radius">Change radius</button>
         <button id="change-opacity">Change opacity</button>
     </div>
-    <div id="cabeçario" style="height: 750px;">
+    <div id="cabeçario" style="height: 850px;">
         <h1>Mapa de calor</h1>
         <h3>Antes de começar insira a sua chave da api do google-maps aonde está escrito "$INSIRA A SUA CHAVE DE API AQUI$" dentro do codigo fonte do html</h3>
         <h3>IMPORTANTE</h2>
@@ -43,9 +43,14 @@
                 <div style="margin-left: 175px; margin-top: 25px; margin-bottom: 20px;">
                     O arquivo tem cabeçario?
                     <input type="checkbox" id="hasfileHeader">
+                    <br> Qual que é o numero da coluna que está o endereço completo para consulta?
+                    <input type="number" id="columnAdressComplete" min="1" style="width: 55px;">
+                    <br>
                     <input type="file" id="endereco" accept=".csv, .txt" style="margin-left: 50px;margin-top: 20px;" />
-                    <button onclick="processAdressFile()" style=" width: 150px;  height: 50px;">Montar grafico com
-            endereços</button>
+                    <button onclick="processAdressFile()" style=" width: 150px;  height: 50px;">Montar grafico</button>
+                    <br>
+                    <button onclick="cancelarLeitura()" style="margin-top: 20px;margin-left: 200px; width: 150px;  height: 50px;">Cancelar Leitura
+
                 </div>
             </div>
             <div id="test"></div>

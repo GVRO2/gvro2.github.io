@@ -1,6 +1,9 @@
  var resultsRequestAdress = [];
+ var continuarLeitura = true;
+ var timeInitProcess;
 
  function processAdressFile() {
+     timeInitProcess = new Date();
      let fileReader = new FileReader();
      var file = document.getElementById("endereco").files[0];
 
@@ -19,16 +22,35 @@
      var startIndex = getStartIndex("hasfileHeader");
      for (let index = startIndex; index < rows.length; index++) {
          var columns = rows[index].split(";");
-         var endereco = columns[0];
+         var addressIndex = getAdressIndex();
+         var endereco = columns[addressIndex];
          if (isValidateData(endereco)) {
-             var rowNumber = index + 1
-             console.log("Read line " + rowNumber + "of " + rows.length)
-             await convertEndereco(endereco);
+             if (continuarLeitura) {
+                 var rowNumber = index + 1
+                 console.log("Read line " + rowNumber + "of " + rows.length)
+                 await convertEndereco(endereco);
+             } else {
+                 console.log("Cancelando leitura")
+                 break;
+             }
          }
      }
      updateMap();
      window.initMap = updateMap;
      downloadCsv();
+ }
+
+ function cancelarLeitura() {
+     continuarLeitura = false;
+ }
+
+ function getAdressIndex() {
+     var input = document.getElementById("columnAdressComplete").value;
+     if (input === "") {
+         return 0;
+     } else {
+         return parseInt(input) - 1;
+     }
  }
 
  async function convertEndereco(endereco) {
