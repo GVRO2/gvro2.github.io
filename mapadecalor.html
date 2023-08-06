@@ -8,6 +8,7 @@
     <script src="./js/process-waypoint-file.js"></script>
     <script src="./js/endereco-converter.js"></script>
     <script src="./js/init-map.js"></script>
+    <script src="./js/download-csv.js"></script>
 </head>
 
 <body>
@@ -26,6 +27,8 @@
                 <h4>Insira aqui o arquivo csv (separado em ;)</h4>
                 <h4> As informações de latitude/longetude onde a latitude sendo a 1º coluna e a longetude sendo a segunda coluna
                 </h4>
+                O arquivo tem cabeçario?
+                <input type="checkbox" id="hasfileHeaderWaypoint">
                 <input type="file" id="waypoints" accept=".csv, .txt" style="margin-left: 50px;margin-top: 20px;">
                 <div style="margin-left: 175px; margin-top: 25px; margin-bottom: 20px;">
                     <button onclick="processWaypointFile()" style=" width: 150px;  height: 50px;">Montar grafico com latitude e

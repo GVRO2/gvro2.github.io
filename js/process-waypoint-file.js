@@ -4,11 +4,10 @@
  let map, heatmap;
 
  let points = [];
-
  let latitudes = [];
  let longitudes = [];
 
- async function processAdressFile() {
+ async function processWaypointFile() {
      let file = getFile("waypoints");
      let fileReader = new FileReader();
 
@@ -31,20 +30,19 @@
      var rows = texto.split("\n");
      for (let index = 0; index < rows.length; index++) {
          var latLong = getLatLong(rows[index])
-         if (isValidateData(index, latLong)) {
+         if (isValidateData(latLong[0]) && isValidateData(latLong[1])) {
              saveDataInRunTime(latLong[0], latLong[1]);
          }
      }
      updateMap();
  }
 
- function isValidateData(index, latLong) {
-     if (index != 0) {
-         if (latLong[0] !== "") {
-             return true;
-         }
+ function isValidateData(text) {
+     if (text == "") {
+         return false;
+     } else {
+         return true;
      }
-     return false;
  }
 
  function getLatLong(row) {
@@ -79,12 +77,21 @@
 
 
  function pushPoints() {
-     for (let index = 0; index < latitudes.length; index++) {
-         // weight vai ser o valor dos imoveis?
+     var startIndex = getStartIndex("hasfileHeaderWaypoint")
+     for (let index = startIndex; index < latitudes.length; index++) {
          let lat = parseFloat(latitudes[index]);
          let lgv = parseFloat(longitudes[index]);
          points.push({ location: new google.maps.LatLng(lat, lgv), weight: 1000 });
      }
-     latitudes = []
-     longitudes = []
+ }
+
+ function getStartIndex(elementId) {
+     var hasHeader = document.getElementById(elementId).checked;
+     let startIndex;
+     if (hasHeader) {
+         startIndex = 1;
+     } else {
+         startIndex = 0;
+     }
+     return startIndex;
  }
