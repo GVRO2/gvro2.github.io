@@ -27,7 +27,7 @@
          if (isValidateData(endereco)) {
              if (continuarLeitura) {
                  var rowNumber = index + 1
-                 console.log("Read line " + rowNumber + "of " + rows.length)
+                 console.log("Read line " + rowNumber + " of " + rows.length)
                  await convertEndereco(endereco);
              } else {
                  console.log("Cancelando leitura")
@@ -37,6 +37,7 @@
      }
      updateMap();
      window.initMap = updateMap;
+     console.log("Mapa Atualizado")
      downloadCsv();
  }
 
@@ -55,8 +56,16 @@
 
  async function convertEndereco(endereco) {
      var geocoder = new google.maps.Geocoder();
-     await geocoder.geocode({ 'address': endereco }, function(resultado) {
-         points.push({ location: resultado[0].geometry.location, weight: 500 });
-         resultsRequestAdress.push(resultado[0]);
-     })
+     try {
+         await geocoder.geocode({ 'address': endereco }, function(resultado) {
+             try {
+                 points.push({ location: resultado[0].geometry.location, weight: 500 });
+                 resultsRequestAdress.push(resultado[0]);
+             } catch (error) {
+                 console.log("Erro ao criar o objeto location: " + JSON.stringify(resultado) + error)
+             }
+         })
+     } catch (error) {
+         console.log("Erro ao chamar api do google: " + error)
+     }
  }
