@@ -28,7 +28,8 @@
 
  function readFileWaypoint(texto) {
      var rows = texto.split("\n");
-     for (let index = 0; index < rows.length; index++) {
+     var startIndex = getStartIndex("hasfileHeaderWaypoint")
+     for (let index = startIndex; index < rows.length; index++) {
          var latLong = getLatLong(rows[index])
          if (isValidateData(latLong[0]) && isValidateData(latLong[1])) {
              saveDataInRunTime(latLong[0], latLong[1]);
@@ -57,15 +58,25 @@
  }
 
  function sanitizeData(dirtyPoint) {
-     var sanitizeString = dirtyPoint.replaceAll("/r", "").replaceAll("\r", "").replaceAll(",", ".");
-     return parseFloat(sanitizeString).toFixed(6);
+     var sanitizeString = dirtyPoint.replaceAll("/r", "").replaceAll("\r", "").replaceAll(",", "").replaceAll(".", "");
+     var formatString = inserirTexto(sanitizeString, ".", 3)
+     return parseFloat(formatString).toFixed(6);
+ }
+
+ function inserirTexto(content, insertText, index) {
+     return ("" +
+         content.substring(0, index) +
+         insertText +
+         content.substring(index)
+     );
  }
 
  function updateMap() {
      pushPoints();
+     console.log("centerMap: " + points[0].location)
      map = new google.maps.Map(document.getElementById("map"), {
          zoom: 13,
-         center: points[points.length - 1].location,
+         center: points[0].location,
          mapTypeId: "roadmap",
      });
      heatmap = new google.maps.visualization.HeatmapLayer({
@@ -81,6 +92,7 @@
      for (let index = startIndex; index < latitudes.length; index++) {
          let lat = parseFloat(latitudes[index]);
          let lgv = parseFloat(longitudes[index]);
+         var rowNumber = index + 1
          points.push({ location: new google.maps.LatLng(lat, lgv), weight: 1000 });
      }
  }
