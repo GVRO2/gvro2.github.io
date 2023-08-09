@@ -75,7 +75,7 @@
      pushPoints();
      console.log("centerMap: " + points[0].location)
      map = new google.maps.Map(document.getElementById("map"), {
-         zoom: 13,
+         zoom: 11,
          center: points[0].location,
          mapTypeId: "roadmap",
      });
