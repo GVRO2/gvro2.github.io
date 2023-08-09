@@ -18,6 +18,11 @@
         <button id="change-radius">Change radius</button>
         <button id="change-opacity">Change opacity</button>
     </div>
+    <div id="div_btn_voltar" onclick="irParaPlanilha()">
+        <img id="icone_planilha" src="./imagens/icone_planilha.png">
+        <span><img id="icone_seta" src="./imagens/seta.png"></span>
+    </div>
+    <div id="map"></div>
     <div id="cabeçalho" style="height: 850px;">
         <h1>Mapa de calor</h1>
         <h3>Antes de começar insira a sua chave da api do google-maps aonde está escrito "$INSIRA A SUA CHAVE DE API AQUI$" dentro do codigo fonte do html</h3>
@@ -52,7 +57,6 @@
                 </div>
             </div>
     </div>
-    <div id="map"></div>
 
     <!-- 
       The `defer` attribute causes the callback to execute after the full HTML
@@ -61,7 +65,7 @@
       See https://developers.google.com/maps/documentation/javascript/load-maps-js-api
       for more information.
       -->
-    <script src="https://maps.googleapis.com/maps/api/js?key=$INSIRA A SUA CHAVE DE API AQUI$&callback=initMap&libraries=visualization&v=weekly&libraries=visualization" defer></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDOCRY3w5xYuQvcKkxv00zqZ5DN2JPv4DI&callback=initMap&libraries=visualization&v=weekly&libraries=visualization" defer></script>
 </body>
 
 </html>

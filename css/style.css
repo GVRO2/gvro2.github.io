@@ -34,9 +34,32 @@
   #floating-panel {
       background-color: #fff;
       border: 1px solid #999;
-      left: 25%;
+      left: 37%;
       padding: 5px;
       position: absolute;
-      top: 860px;
+      top: 90%;
       z-index: 5;
+  }
+  
+  #div_btn_voltar {
+      background-color: #fff;
+      border: 1px solid #999;
+      left: 87%;
+      padding: 5px;
+      position: absolute;
+      top: 80%;
+      z-index: 5;
+  }
+  
+  #btn_voltar {
+      height: inherit;
+  }
+  
+  #icone_planilha {
+      height: 5REM;
+  }
+  
+  #icone_seta {
+      margin-bottom: 5px;
+      height: 4REM;
   }

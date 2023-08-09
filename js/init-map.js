@@ -1,3 +1,7 @@
+function irParaPlanilha() {
+    window.location.href = "https://docs.google.com/spreadsheets/d/198M8cEPLwhpF0PVG8seDIpU5hbw4nOn1V_uaK5wGcDs/edit#gid=40350843";
+}
+
 function initMap() {
     map = new google.maps.Map(document.getElementById("map"), {
         zoom: 13,
